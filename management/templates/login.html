@@ -5,9 +5,12 @@
     </head>
     <body>
         <div class="container-fluid">
-            <form method="post">
-                <input type="text" placeholder="Nombre de usuario" />
-                <input type="password" placeholder="Contraseña" />
+            {% if login_error %}
+                Nombre de usuario o contraseña incorrectos <br />
+            {% endif %}
+            <form method="post"> {% csrf_token %}
+                <input type="text" name="username" placeholder="Nombre de usuario" />
+                <input type="password" name="password" placeholder="Contraseña" />
                 <input type="submit" value="Entrar" />
             </form>
         </div>

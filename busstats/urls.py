@@ -23,7 +23,7 @@ from management.views import index, dashboard, login
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^dashboard/$', dashboard),
+    url(r'^dashboard/$', dashboard, name="dashboard"),
     url(r'^login$', login),
     url(r'^$', index)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,3 +1,27 @@
-Test Dashboard
+<!DOCTYPE html>
+<html>
+<head>
 {% load static %}
-<a href="{% static "css/bootstrap.css" %}">Click</a>
+</head>
+<body>
+    <div id="map" style="height:500px;width:500px"></div>
+    
+    Pings <br />
+    {% for route_data in route_pings %}
+        {{ route_data.ping.position }}
+    {% endfor %}
+    <script>
+        function initMap() {
+            // Create a map object and specify the DOM element for display.
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 11.034297721206263, lng: -74.8299793243408},
+                scrollwheel: false,
+                zoom: 8
+            });
+        }
+    
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&callback=initMap"
+    async defer></script>
+</body>
+</html>

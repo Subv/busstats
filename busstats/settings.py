@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "geoposition",
+    'management',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -122,3 +124,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = ('static/',)
 
+GEOPOSITION_GOOGLE_MAPS_API_KEY = "AIzaSyAMAh4IO1RtzqxppZnRFMBzw2pzxLZ_WKM"
