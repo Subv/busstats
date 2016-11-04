@@ -7,17 +7,39 @@
     <div id="map" style="height:500px;width:500px"></div>
     
     Pings <br />
-    {% for route_data in route_pings %}
-        {{ route_data.ping.position }}
-    {% endfor %}
     <script>
         function initMap() {
-            // Create a map object and specify the DOM element for display.
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 11.034297721206263, lng: -74.8299793243408},
                 scrollwheel: false,
                 zoom: 8
             });
+            
+            markers = []
+            var data = {}
+            
+            {% for route_data in route_pings %}
+            data = { 
+                "marker": new google.maps.Marker({
+                    map: map,
+                    position: {lat: {{ route_data.ping.position.latitude|stringformat:"f" }}, lng: {{ route_data.ping.position.longitude|stringformat:"f" }} },
+                    title: '{{ route_data.route.origin.name }} - {{ route_data.route.destination.name }}'
+                }),
+                "route": {
+                    "id": {{ route_data.route.id }}
+                }
+            }
+            markers.push(data);
+            
+            var infowindow = new google.maps.InfoWindow({
+                content: '<a target="_blank" href="{{ route_data.route.get_admin_url }}">{{ route_data.route.origin.name }} - {{ route_data.route.destination.name }}</a>'
+            });
+            
+            google.maps.event.addListener(data.marker, 'click', (function () {
+                infowindow.open(map, data.marker);
+            }));
+            {% endfor %}            
+
         }
     
     </script>
