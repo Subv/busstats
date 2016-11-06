@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.contrib.auth.models import User
 from geoposition.fields import GeopositionField
-
+from PIL import Image
 
 
 class Company(models.Model):
@@ -17,6 +17,19 @@ class Company(models.Model):
 
 class Client(User):
     company = models.ForeignKey(to=Company, on_delete=models.PROTECT)
+    photo = models.ImageField(upload_to="photos")
+
+    def save(self):
+        if not self.photo:
+            return
+
+        super(Client, self).save()
+        # Resize the image to 128x128
+        image = Image.open(self.photo)
+        (width, height) = image.size
+        size = (128, 128)
+        image = image.resize(size, Image.ANTIALIAS)
+        image.save(self.photo.path)
 
 
 class Bus(models.Model):
@@ -51,11 +64,12 @@ class RouteEndpoint(models.Model):
 
 
 class BusRoute(models.Model):
-    bus = models.ForeignKey(to=Bus)
+    bus = models.ForeignKey(to=Bus, related_name="routes")
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     origin = models.ForeignKey(to=RouteEndpoint, related_name="as_origin")
     destination = models.ForeignKey(to=RouteEndpoint, related_name="as_destination")
+    passengers = models.IntegerField(default=0)
     
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
@@ -69,3 +83,11 @@ class BusLocationPings(models.Model):
     position = GeopositionField()
     time = models.DateTimeField()
     route = models.ForeignKey(to=BusRoute, related_name="location_pings")
+
+
+class AccidentReport(models.Model):
+    route = models.ForeignKey(to=BusRoute, related_name="accidents")
+    time = models.DateTimeField()
+    position = GeopositionField()
+    notes = models.TextField()
+

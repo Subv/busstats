@@ -124,4 +124,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = ('static/',)
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 GEOPOSITION_GOOGLE_MAPS_API_KEY = "AIzaSyAMAh4IO1RtzqxppZnRFMBzw2pzxLZ_WKM"
+
+LOGIN_URL = "/login"
+LOGIN_REDIRECT_URL = "/dashboard"

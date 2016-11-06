@@ -1,5 +1,9 @@
+from django.utils.translation import ugettext, ugettext_lazy as _
+
 from django.contrib import admin
-from models import BusLocationPings, BusRoute, RouteEndpoint
+from django.contrib.auth.admin import UserAdmin
+
+from .models import BusLocationPings, BusRoute, RouteEndpoint, Client, AccidentReport
 
 
 @admin.register(BusLocationPings)
@@ -15,3 +19,26 @@ class BusRouteAdmin(admin.ModelAdmin):
 @admin.register(RouteEndpoint)
 class RouteEndpointAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(AccidentReport)
+class AccidentReportAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Client)
+class ClientAdmin(UserAdmin):
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'photo')}),
+        (_('Company info'), {'fields': ('company',)}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'company', 'photo'),
+        }),
+    )
+
