@@ -19,6 +19,11 @@
 
     <!-- Custom Theme Style -->
     <link href="{% static "css/custom.min.css" %}" rel="stylesheet">
+    {% if login_error %}
+        <script type="text/javascript">
+            alert("Credenciales incorrectas");
+        </script>
+    {% endif %}
   </head>
 
   <body class="login">

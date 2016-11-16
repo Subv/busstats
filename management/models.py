@@ -20,7 +20,7 @@ class Client(User):
     photo = models.ImageField(upload_to="photos")
 
     def save(self):
-        if not self.photo:
+        if not self.photo or self.id:
             return
 
         super(Client, self).save()
