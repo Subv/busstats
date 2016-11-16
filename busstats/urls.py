@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^dashboard/$', dashboard, name="dashboard"),
     url(r'^login', login, name="login"),
     url(r'^logout/$', logout_then_login, name="logout"),
-    url(r'^$', login)
+    url(r'^$', index)
 ]
 
 if settings.DEBUG:

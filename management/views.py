@@ -11,7 +11,7 @@ from busstats import settings
 
 
 def index(request):
-    return render(request, "index.html")
+    return render(request, "landing.html")
     
 
 @login_required()
